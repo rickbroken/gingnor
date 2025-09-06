@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -15,84 +15,37 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #fff5f7 0%, #f5faff 100%);
         font-family: "Trebuchet MS", sans-serif;
+        background:
+          radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+          radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+          linear-gradient(135deg, #fff5f7 0%, #f5faff 100%);
+        background-position:
+          0 0,
+          10px 10px,
+          0 0;
+        background-size:
+          20px 20px,
+          20px 20px,
+          100% 100%;
       }
 
       /* Texto central */
       h1 {
-        color: #333;
-        font-size: 4rem;
+        color: #6a0dad;
+        background-color: #f3e8ff;
+        font-size: clamp(2rem, 8vw, 4rem);
         letter-spacing: 2px;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        text-align: center;
         z-index: 2;
-      }
-
-      /* Imágenes decorativas */
-      .figura {
-        position: absolute;
-        width: 230px;
-        max-width: 35vw;
-        transition: transform 0.3s ease;
-        opacity: 0.9;
-      }
-      .figura:hover {
-        transform: scale(1.05);
-      }
-
-      /* Posiciones de cada imagen */
-      .conejo {
-        top: 10%;
-        left: 8%;
-      }
-      .conejo2 {
-        bottom: 12%;
-        right: 8%;
-      }
-      .gato {
-        top: 15%;
-        right: 12%;
-      }
-      .gato2 {
-        bottom: 10%;
-        left: 14%;
-      }
-
-      /* Responsive */
-      @media (max-width: 600px) {
-        h1 {
-          font-size: 2.6rem;
-        }
-        .figura {
-          width: 130px;
-        }
       }
     </style>
   </head>
 
   <body>
     <h1>En Desarrollo</h1>
-
-    <!-- Sustituye los enlaces por tus ilustraciones anime -->
-    <img
-      class="figura conejo"
-      src="https://images.unsplash.com/photo-1594065451866-87c750ced942?auto=format&w=400"
-      alt="Conejo blanco y negro estilo anime"
-    />
-    <img
-      class="figura conejo2"
-      src="https://images.unsplash.com/photo-1611644940849-caec0ed7a681?auto=format&w=400"
-      alt="Conejo blanco y negro estilo anime"
-    />
-    <img
-      class="figura gato"
-      src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&w=400"
-      alt="Gato negro estilo anime"
-    />
-    <img
-      class="figura gato2"
-      src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&w=400"
-      alt="Gato negro estilo anime"
-    />
   </body>
 </html>
