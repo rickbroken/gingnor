@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>En Desarrollo</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       /* Layout base */
@@ -12,7 +16,7 @@
         padding: 0;
         height: 100%;
         width: 100%;
-        flex-direction:col;
+        flex-direction: column;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -35,11 +39,18 @@
         text-align: center;
         z-index: 2;
       }
+
+      .name {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+        margin: 0;
+      }
     </style>
   </head>
 
-  <body >
+  <body>
     <h1>¡En desarrollo!</h1>
-    <p>Kristel - Ricardo</p>
+    <p class="name">Kristel</p>
+    <p class="name">Ricardo</p>
   </body>
 </html>
