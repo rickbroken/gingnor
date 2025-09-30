@@ -196,6 +196,7 @@ main section {
   background-color: var(--color-accent);
   color: #fff;
   box-shadow: 0 15px 30px rgba(77, 111, 255, 0.25);
+  margin-bottom: 10px;
 }
 
 .button--primary:hover,
