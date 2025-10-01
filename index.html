@@ -76,6 +76,36 @@
             aria-label="Funciones destacadas de Gingnor"
             data-autoplay="6500"
           >
+            <div
+              class="features-slider__pagination"
+              role="tablist"
+              aria-label="Indicador de página del slider"
+            >
+              <button
+                type="button"
+                class="features-slider__pagination-item is-active"
+                data-target="0"
+                style="--pagination-accent: #5c6efc"
+              >
+                <span class="sr-only">Ir a Notas conectadas</span>
+              </button>
+              <button
+                type="button"
+                class="features-slider__pagination-item"
+                data-target="1"
+                style="--pagination-accent: #ff7a59"
+              >
+                <span class="sr-only">Ir a Calendario</span>
+              </button>
+              <button
+                type="button"
+                class="features-slider__pagination-item"
+                data-target="2"
+                style="--pagination-accent: #11b5a4"
+              >
+                <span class="sr-only">Ir a Automatizaciones</span>
+              </button>
+            </div>
             <div class="features-slider__viewport" aria-live="polite">
               <article
                 class="feature-slide is-active"
@@ -174,6 +204,20 @@
                 </div>
               </article>
             </div>
+            <button
+              type="button"
+              class="features-slider__arrow features-slider__arrow--prev"
+              aria-label="Ver función anterior"
+            >
+              <span aria-hidden="true">&#10094;</span>
+            </button>
+            <button
+              type="button"
+              class="features-slider__arrow features-slider__arrow--next"
+              aria-label="Ver función siguiente"
+            >
+              <span aria-hidden="true">&#10095;</span>
+            </button>
             <div class="features-slider__controls" role="tablist" aria-label="Cambiar función destacada">
               <button
                 type="button"
