@@ -1,8 +1,3 @@
-const RESEND_API_KEY = 're_ZEe3Xmxg_DLajFDgx3jGqQHSLruCAbhxk';
-const RESEND_FROM_EMAIL = 'lanzamiento@gingnor.com';
-const RESEND_TARGET_EMAIL = 'daironquebrada@gmail.com';
-const RESEND_SUBJECT = 'Nuevo registro en la lista prioritaria de Gingnor';
-
 const header = document.querySelector('.site-header');
 const toggle = document.querySelector('.navigation__toggle');
 const menu = document.getElementById('primary-menu');
@@ -44,28 +39,19 @@ const setFormMessage = (message, type = 'success') => {
 };
 
 const sendResendEmail = async (email) => {
-  const response = await fetch('https://api.resend.com/emails', {
+  const response = await fetch('/.netlify/functions/send-email', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: `Gingnor Early Access <${RESEND_FROM_EMAIL}>`,
-      to: [RESEND_TARGET_EMAIL],
-      subject: RESEND_SUBJECT,
-      reply_to: email,
-      html: `
-        <h1>Nuevo registro</h1>
-        <p>Se ha registrado un nuevo correo para la beta privada de Gingnor.</p>
-        <p><strong>Correo:</strong> ${email}</p>
-        <p>Recuerda dar seguimiento para continuar con el proceso de bienvenida.</p>
-      `,
+      email,
     }),
   });
 
   if (!response.ok) {
-    throw new Error('No fue posible enviar el correo.');
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message || 'No fue posible enviar el correo.');
   }
 };
 
