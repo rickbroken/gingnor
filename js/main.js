@@ -39,14 +39,18 @@ const setFormMessage = (message, type = 'success') => {
 };
 
 const sendResendEmail = async (email) => {
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Authorization": "Bearer re_ZEe3Xmxg_DLajFDgx3jGqQHSLruCAbhxk",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      email,
-    }),
+      from: "lanzamientogingnor@gingnor.com",
+      to: ["daironquebrada@gmail.com"],
+      subject: "Hola esta persona quiere unirse al lanzamiento",
+      html: "<p>Correo enviado sin librerías extra</p>"
+    })
   });
 
   if (!response.ok) {
