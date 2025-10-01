@@ -39,7 +39,7 @@ const setFormMessage = (message, type = 'success') => {
 };
 
 const sendResendEmail = async (email) => {
-  const response = await fetch('/.netlify/functions/send-email', {
+  const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
