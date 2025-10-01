@@ -44,6 +44,11 @@ const slider = document.querySelector('.features-slider');
 if (slider) {
   const slides = Array.from(slider.querySelectorAll('.feature-slide'));
   const controls = Array.from(slider.querySelectorAll('.features-slider__control'));
+  const paginationItems = Array.from(
+    slider.querySelectorAll('.features-slider__pagination-item'),
+  );
+  const prevButton = slider.querySelector('.features-slider__arrow--prev');
+  const nextButton = slider.querySelector('.features-slider__arrow--next');
   const totalSlides = slides.length;
   let currentIndex = Math.max(
     0,
@@ -77,6 +82,12 @@ if (slider) {
       control.classList.toggle('is-active', isActive);
       control.setAttribute('aria-selected', String(isActive));
       control.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    paginationItems.forEach((item, index) => {
+      const isActive = index === nextIndex;
+      item.classList.toggle('is-active', isActive);
+      item.setAttribute('aria-pressed', String(isActive));
     });
 
     currentIndex = nextIndex;
@@ -153,6 +164,24 @@ if (slider) {
       }
     });
   });
+
+  paginationItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      goToSlide(index);
+    });
+  });
+
+  if (prevButton) {
+    prevButton.addEventListener('click', () => {
+      goToSlide(currentIndex - 1);
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      goToSlide(currentIndex + 1);
+    });
+  }
 
   slider.addEventListener('mouseenter', pauseAutoplay);
   slider.addEventListener('mouseleave', resumeAutoplayIfAllowed);
