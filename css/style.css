@@ -655,6 +655,27 @@ main section {
   gap: 1.5rem;
 }
 
+.cta__lead {
+  font-size: 1.05rem;
+  color: var(--color-muted);
+}
+
+.cta__benefits {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--color-muted);
+}
+
+.cta__benefits li::before {
+  content: '✦';
+  color: var(--color-accent);
+  margin-right: 0.5rem;
+}
+
 .cta__form {
   display: grid;
   gap: 1rem;
@@ -674,6 +695,24 @@ main section {
 .cta__form input:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+.cta__form-message {
+  min-height: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+.cta__form-message[data-variant='success'] {
+  color: #2e7d32;
+}
+
+.cta__form-message[data-variant='error'] {
+  color: #c62828;
+}
+
+.cta__form-message[data-variant='info'] {
+  color: var(--color-accent);
 }
 
 .cta__disclaimer {

@@ -1,3 +1,8 @@
+const RESEND_API_KEY = 'TU_API_KEY_DE_RESEND';
+const RESEND_FROM_EMAIL = 'lanzamiento@gingnor.com';
+const RESEND_TARGET_EMAIL = 'hola@gingnor.com';
+const RESEND_SUBJECT = 'Nuevo registro en la lista prioritaria de Gingnor';
+
 const header = document.querySelector('.site-header');
 const toggle = document.querySelector('.navigation__toggle');
 const menu = document.getElementById('primary-menu');
@@ -28,13 +33,73 @@ if (toggle && menu) {
 }
 
 const form = document.querySelector('.cta__form');
+const formMessage = document.querySelector('.cta__form-message');
+
+const setFormMessage = (message, type = 'success') => {
+  if (!formMessage) {
+    return;
+  }
+  formMessage.textContent = message;
+  formMessage.dataset.variant = type;
+};
+
+const sendResendEmail = async (email) => {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: `Gingnor Early Access <${RESEND_FROM_EMAIL}>`,
+      to: [RESEND_TARGET_EMAIL],
+      subject: RESEND_SUBJECT,
+      reply_to: email,
+      html: `
+        <h1>Nuevo registro</h1>
+        <p>Se ha registrado un nuevo correo para la beta privada de Gingnor.</p>
+        <p><strong>Correo:</strong> ${email}</p>
+        <p>Recuerda dar seguimiento para continuar con el proceso de bienvenida.</p>
+      `,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('No fue posible enviar el correo.');
+  }
+};
 
 if (form) {
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const email = new FormData(form).get('email');
-    if (email) {
-      alert('¡Gracias! Muy pronto recibirás noticias sobre Gingnor.');
+
+    const formData = new FormData(form);
+    const email = String(formData.get('email') || '').trim();
+
+    if (!email) {
+      setFormMessage('Por favor escribe un correo válido para continuar.', 'error');
+      return;
+    }
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton?.setAttribute('disabled', 'true');
+    setFormMessage('Enviando tu registro...', 'info');
+
+    try {
+      await sendResendEmail(email);
+      form.reset();
+      setFormMessage(
+        '¡Listo! Revisa tu bandeja de entrada, pronto recibirás noticias y recursos exclusivos.',
+        'success',
+      );
+    } catch (error) {
+      console.error(error);
+      setFormMessage(
+        'Tuvimos un inconveniente al registrarte. Por favor intenta nuevamente en unos minutos.',
+        'error',
+      );
+    } finally {
+      submitButton?.removeAttribute('disabled');
     }
   });
 }
