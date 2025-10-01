@@ -39,19 +39,18 @@ if (form) {
   });
 }
 
-const slider = document.querySelector('.features-slider');
-
-if (slider) {
-  const viewport = slider.querySelector('.features-slider__viewport');
-  const slides = Array.from(slider.querySelectorAll('.feature-slide'));
+const initializeFeaturesSlider = (sliderElement) => {
+  const viewport = sliderElement.querySelector('.features-slider__viewport');
+  const slides = Array.from(sliderElement.querySelectorAll('.feature-slide'));
   const paginationItems = Array.from(
-    slider.querySelectorAll('.features-slider__pagination-item'),
+    sliderElement.querySelectorAll('.features-slider__pagination-item'),
   );
-  const prevButton = slider.querySelector('.features-slider__arrow--prev');
-  const nextButton = slider.querySelector('.features-slider__arrow--next');
+  const prevButton = sliderElement.querySelector('.features-slider__arrow--prev');
+  const nextButton = sliderElement.querySelector('.features-slider__arrow--next');
   const totalSlides = slides.length;
 
   if (!viewport || totalSlides === 0) {
+    sliderElement.classList.add('is-inactive');
     return;
   }
 
@@ -63,7 +62,7 @@ if (slider) {
     0,
     slides.findIndex((slide) => slide.classList.contains('is-active')),
   );
-  const autoplayDelay = Number(slider.getAttribute('data-autoplay')) || 6500;
+  const autoplayDelay = Number(sliderElement.getAttribute('data-autoplay')) || 6500;
   let autoplayId;
   let isDragging = false;
   let activePointerId = null;
@@ -96,7 +95,7 @@ if (slider) {
     });
 
     currentIndex = nextIndex;
-    slider.style.setProperty('--drag-offset', '0px');
+    sliderElement.style.setProperty('--drag-offset', '0px');
   };
 
   const stopAutoplay = () => {
@@ -111,7 +110,7 @@ if (slider) {
       return;
     }
     stopAutoplay();
-    slider.classList.remove('is-paused');
+    sliderElement.classList.remove('is-paused');
     autoplayId = window.setInterval(() => {
       const nextIndex = (currentIndex + 1) % totalSlides;
       setActiveSlide(nextIndex);
@@ -123,14 +122,17 @@ if (slider) {
       return;
     }
     stopAutoplay();
-    slider.classList.add('is-paused');
+    sliderElement.classList.add('is-paused');
   };
 
   const resumeAutoplayIfAllowed = () => {
     if (totalSlides <= 1 || isDragging) {
       return;
     }
-    if (slider.matches(':hover') || slider.contains(document.activeElement)) {
+    if (
+      sliderElement.matches(':hover') ||
+      sliderElement.contains(document.activeElement)
+    ) {
       pauseAutoplay();
       return;
     }
@@ -140,7 +142,7 @@ if (slider) {
   const goToSlide = (targetIndex) => {
     const nextIndex = ((targetIndex % totalSlides) + totalSlides) % totalSlides;
     if (nextIndex === currentIndex) {
-      slider.style.setProperty('--drag-offset', '0px');
+      sliderElement.style.setProperty('--drag-offset', '0px');
       return;
     }
     setActiveSlide(nextIndex);
@@ -194,13 +196,13 @@ if (slider) {
     dragStartIndex = slides.indexOf(slideTarget);
     activePointerId = event.pointerId;
 
-    slider.classList.add('is-dragging', 'is-grabbing');
-    slider.style.setProperty('--drag-offset', '0px');
+    sliderElement.classList.add('is-dragging', 'is-grabbing');
+    sliderElement.style.setProperty('--drag-offset', '0px');
     pauseAutoplay();
 
-    if (typeof slider.setPointerCapture === 'function') {
+    if (typeof sliderElement.setPointerCapture === 'function') {
       try {
-        slider.setPointerCapture(activePointerId);
+        sliderElement.setPointerCapture(activePointerId);
       } catch (error) {
         // Ignore pointer capture errors
       }
@@ -220,7 +222,7 @@ if (slider) {
 
     lastDragDelta = deltaX;
     const limitedOffset = Math.max(Math.min(deltaX, 240), -240);
-    slider.style.setProperty('--drag-offset', `${limitedOffset}px`);
+    sliderElement.style.setProperty('--drag-offset', `${limitedOffset}px`);
   };
 
   const finishDrag = (event, cancelled = false) => {
@@ -228,16 +230,19 @@ if (slider) {
       return;
     }
 
-    if (typeof slider.releasePointerCapture === 'function' && activePointerId !== null) {
+    if (
+      typeof sliderElement.releasePointerCapture === 'function' &&
+      activePointerId !== null
+    ) {
       try {
-        slider.releasePointerCapture(activePointerId);
+        sliderElement.releasePointerCapture(activePointerId);
       } catch (error) {
         // Ignore pointer capture errors
       }
     }
 
-    slider.classList.remove('is-dragging', 'is-grabbing');
-    slider.style.setProperty('--drag-offset', '0px');
+    sliderElement.classList.remove('is-dragging', 'is-grabbing');
+    sliderElement.style.setProperty('--drag-offset', '0px');
 
     const deltaX = cancelled ? 0 : lastDragDelta || event.clientX - dragStartX;
     const movedEnough = Math.abs(deltaX) > 80;
@@ -260,16 +265,16 @@ if (slider) {
     lastDragDelta = 0;
   };
 
-  slider.addEventListener('pointerdown', startDrag);
-  slider.addEventListener('pointermove', handleDragMove);
-  slider.addEventListener('pointerup', (event) => finishDrag(event));
-  slider.addEventListener('pointercancel', (event) => finishDrag(event, true));
+  sliderElement.addEventListener('pointerdown', startDrag);
+  sliderElement.addEventListener('pointermove', handleDragMove);
+  sliderElement.addEventListener('pointerup', (event) => finishDrag(event));
+  sliderElement.addEventListener('pointercancel', (event) => finishDrag(event, true));
 
-  slider.addEventListener('mouseenter', pauseAutoplay);
-  slider.addEventListener('mouseleave', resumeAutoplayIfAllowed);
+  sliderElement.addEventListener('mouseenter', pauseAutoplay);
+  sliderElement.addEventListener('mouseleave', resumeAutoplayIfAllowed);
 
-  slider.addEventListener('focusin', pauseAutoplay);
-  slider.addEventListener('focusout', () => {
+  sliderElement.addEventListener('focusin', pauseAutoplay);
+  sliderElement.addEventListener('focusout', () => {
     window.setTimeout(() => {
       resumeAutoplayIfAllowed();
     }, 0);
@@ -277,4 +282,10 @@ if (slider) {
 
   setActiveSlide(currentIndex);
   resumeAutoplayIfAllowed();
+};
+
+const slider = document.querySelector('.features-slider');
+
+if (slider) {
+  initializeFeaturesSlider(slider);
 }
