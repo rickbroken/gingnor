@@ -432,6 +432,7 @@ main section {
   width: 100%;
   object-fit: cover;
   box-shadow: var(--shadow-soft);
+  user-select: none;
 }
 
 .feature-slide__overlay {
