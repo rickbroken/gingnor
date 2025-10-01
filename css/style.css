@@ -433,6 +433,7 @@ main section {
   object-fit: cover;
   box-shadow: var(--shadow-soft);
   user-select: none;
+  -webkit-user-drag: none;
 }
 
 .feature-slide__overlay {
