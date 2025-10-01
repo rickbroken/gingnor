@@ -22,7 +22,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-family);
-  background-color: var(--color-background);
+  background: linear-gradient(180deg, #f4f6ff 0%, #f9fbff 48%, #f3f6ff 100%);
   color: var(--color-text);
   line-height: 1.6;
 }
@@ -133,6 +133,10 @@ main section {
 
 .hero {
   padding-top: 7rem;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(92, 110, 252, 0.18), transparent 58%),
+    radial-gradient(circle at 88% 8%, rgba(17, 181, 164, 0.12), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.86));
 }
 
 .hero__grid {
@@ -237,6 +241,10 @@ main section {
 
 .section__lead {
   font-size: 1.05rem;
+}
+
+.features {
+  background: linear-gradient(180deg, rgba(77, 111, 255, 0.08) 0%, rgba(17, 181, 164, 0.08) 100%);
 }
 
 .features-slider {
@@ -487,6 +495,12 @@ main section {
   font-size: 1.25rem;
 }
 
+.organization {
+  background:
+    radial-gradient(circle at 0% 80%, rgba(255, 198, 163, 0.16), transparent 55%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 244, 236, 0.85) 55%, rgba(92, 110, 252, 0.08) 100%);
+}
+
 .organization__grid {
   display: grid;
   gap: 3rem;
@@ -514,6 +528,12 @@ main section {
   height: 0.6rem;
   border-radius: 50%;
   background-color: var(--color-accent);
+}
+
+.community {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(146, 123, 255, 0.18), transparent 52%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(244, 246, 255, 0.9) 100%);
 }
 
 .community__grid {
@@ -552,7 +572,7 @@ main section {
 }
 
 .roadmap {
-  background: linear-gradient(135deg, rgba(77, 111, 255, 0.08), transparent);
+  background: linear-gradient(135deg, rgba(77, 111, 255, 0.12), rgba(17, 181, 164, 0.12));
 }
 
 .roadmap__grid {
@@ -579,6 +599,9 @@ main section {
 
 .cta {
   padding-bottom: clamp(4rem, 8vw, 7rem);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(77, 111, 255, 0.12), transparent 56%),
+    linear-gradient(180deg, rgba(244, 248, 255, 0.92), rgba(255, 255, 255, 0.96));
 }
 
 .cta__content {
