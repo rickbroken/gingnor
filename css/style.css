@@ -250,11 +250,9 @@ main section {
 .features-slider {
   position: relative;
   background: linear-gradient(135deg, rgba(77, 111, 255, 0.06), rgba(17, 181, 164, 0.08));
-  border-radius: 32px;
   padding: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 6vw, 3.75rem);
   box-shadow: var(--shadow-soft);
   overflow: hidden;
-  border: 1px solid rgba(82, 96, 109, 0.08);
   --drag-offset: 0px;
 }
 
