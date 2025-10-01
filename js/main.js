@@ -42,46 +42,51 @@ if (form) {
 const slider = document.querySelector('.features-slider');
 
 if (slider) {
+  const viewport = slider.querySelector('.features-slider__viewport');
   const slides = Array.from(slider.querySelectorAll('.feature-slide'));
-  const controls = Array.from(slider.querySelectorAll('.features-slider__control'));
   const paginationItems = Array.from(
     slider.querySelectorAll('.features-slider__pagination-item'),
   );
   const prevButton = slider.querySelector('.features-slider__arrow--prev');
   const nextButton = slider.querySelector('.features-slider__arrow--next');
   const totalSlides = slides.length;
+
+  if (!viewport || totalSlides === 0) {
+    return;
+  }
+
+  slides.forEach((slide, index) => {
+    slide.dataset.index = String(index);
+  });
+
   let currentIndex = Math.max(
     0,
     slides.findIndex((slide) => slide.classList.contains('is-active')),
   );
   const autoplayDelay = Number(slider.getAttribute('data-autoplay')) || 6500;
-  slider.style.setProperty('--slide-duration', `${autoplayDelay}ms`);
   let autoplayId;
-
-  const restartControlAnimation = () => {
-    const activeControl = controls[currentIndex];
-    if (!activeControl) {
-      return;
-    }
-    activeControl.classList.remove('is-active');
-    void activeControl.offsetWidth;
-    activeControl.classList.add('is-active');
-    activeControl.setAttribute('aria-selected', 'true');
-    activeControl.setAttribute('tabindex', '0');
-  };
+  let isDragging = false;
+  let activePointerId = null;
+  let dragStartX = 0;
+  let lastDragDelta = 0;
+  let hasMoved = false;
+  let dragStartIndex = -1;
 
   const setActiveSlide = (nextIndex) => {
+    const previousIndex = (nextIndex - 1 + totalSlides) % totalSlides;
+    const upcomingIndex = (nextIndex + 1) % totalSlides;
+
     slides.forEach((slide, index) => {
       const isActive = index === nextIndex;
-      slide.classList.toggle('is-active', isActive);
-      slide.setAttribute('aria-hidden', String(!isActive));
-    });
+      const isPrev = totalSlides > 1 && index === previousIndex && index !== nextIndex;
+      const isNext = totalSlides > 1 && index === upcomingIndex && index !== nextIndex;
+      const isDormant = !isActive && !isPrev && !isNext;
 
-    controls.forEach((control, index) => {
-      const isActive = index === nextIndex;
-      control.classList.toggle('is-active', isActive);
-      control.setAttribute('aria-selected', String(isActive));
-      control.setAttribute('tabindex', isActive ? '0' : '-1');
+      slide.classList.toggle('is-active', isActive);
+      slide.classList.toggle('is-prev', isPrev);
+      slide.classList.toggle('is-next', isNext);
+      slide.classList.toggle('is-dormant', isDormant);
+      slide.setAttribute('aria-hidden', String(!isActive));
     });
 
     paginationItems.forEach((item, index) => {
@@ -91,7 +96,7 @@ if (slider) {
     });
 
     currentIndex = nextIndex;
-    restartControlAnimation();
+    slider.style.setProperty('--drag-offset', '0px');
   };
 
   const stopAutoplay = () => {
@@ -107,7 +112,6 @@ if (slider) {
     }
     stopAutoplay();
     slider.classList.remove('is-paused');
-    restartControlAnimation();
     autoplayId = window.setInterval(() => {
       const nextIndex = (currentIndex + 1) % totalSlides;
       setActiveSlide(nextIndex);
@@ -123,7 +127,7 @@ if (slider) {
   };
 
   const resumeAutoplayIfAllowed = () => {
-    if (totalSlides <= 1) {
+    if (totalSlides <= 1 || isDragging) {
       return;
     }
     if (slider.matches(':hover') || slider.contains(document.activeElement)) {
@@ -136,34 +140,12 @@ if (slider) {
   const goToSlide = (targetIndex) => {
     const nextIndex = ((targetIndex % totalSlides) + totalSlides) % totalSlides;
     if (nextIndex === currentIndex) {
-      restartControlAnimation();
+      slider.style.setProperty('--drag-offset', '0px');
       return;
     }
     setActiveSlide(nextIndex);
     resumeAutoplayIfAllowed();
   };
-
-  controls.forEach((control, index) => {
-    control.addEventListener('click', () => {
-      goToSlide(index);
-    });
-
-    control.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        const nextIndex = (index + 1) % totalSlides;
-        controls[nextIndex]?.focus();
-        goToSlide(nextIndex);
-      }
-
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        const previousIndex = (index - 1 + totalSlides) % totalSlides;
-        controls[previousIndex]?.focus();
-        goToSlide(previousIndex);
-      }
-    });
-  });
 
   paginationItems.forEach((item, index) => {
     item.addEventListener('click', () => {
@@ -182,6 +164,106 @@ if (slider) {
       goToSlide(currentIndex + 1);
     });
   }
+
+  const startDrag = (event) => {
+    if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) {
+      return;
+    }
+
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+
+    if (
+      event.target.closest('.features-slider__arrow') ||
+      event.target.closest('.features-slider__pagination')
+    ) {
+      return;
+    }
+
+    const slideTarget = event.target.closest('.feature-slide');
+
+    if (!slideTarget) {
+      return;
+    }
+
+    isDragging = true;
+    hasMoved = false;
+    dragStartX = event.clientX;
+    lastDragDelta = 0;
+    dragStartIndex = slides.indexOf(slideTarget);
+    activePointerId = event.pointerId;
+
+    slider.classList.add('is-dragging', 'is-grabbing');
+    slider.style.setProperty('--drag-offset', '0px');
+    pauseAutoplay();
+
+    if (typeof slider.setPointerCapture === 'function') {
+      try {
+        slider.setPointerCapture(activePointerId);
+      } catch (error) {
+        // Ignore pointer capture errors
+      }
+    }
+  };
+
+  const handleDragMove = (event) => {
+    if (!isDragging || event.pointerId !== activePointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - dragStartX;
+
+    if (Math.abs(deltaX) > 3) {
+      hasMoved = true;
+    }
+
+    lastDragDelta = deltaX;
+    const limitedOffset = Math.max(Math.min(deltaX, 240), -240);
+    slider.style.setProperty('--drag-offset', `${limitedOffset}px`);
+  };
+
+  const finishDrag = (event, cancelled = false) => {
+    if (!isDragging || (activePointerId !== null && event.pointerId !== activePointerId)) {
+      return;
+    }
+
+    if (typeof slider.releasePointerCapture === 'function' && activePointerId !== null) {
+      try {
+        slider.releasePointerCapture(activePointerId);
+      } catch (error) {
+        // Ignore pointer capture errors
+      }
+    }
+
+    slider.classList.remove('is-dragging', 'is-grabbing');
+    slider.style.setProperty('--drag-offset', '0px');
+
+    const deltaX = cancelled ? 0 : lastDragDelta || event.clientX - dragStartX;
+    const movedEnough = Math.abs(deltaX) > 80;
+    const movedDuringGesture = hasMoved;
+
+    isDragging = false;
+    hasMoved = false;
+    activePointerId = null;
+    dragStartX = 0;
+
+    if (movedEnough) {
+      goToSlide(deltaX < 0 ? currentIndex + 1 : currentIndex - 1);
+    } else if (!movedDuringGesture && dragStartIndex !== -1 && dragStartIndex !== currentIndex) {
+      goToSlide(dragStartIndex);
+    } else {
+      resumeAutoplayIfAllowed();
+    }
+
+    dragStartIndex = -1;
+    lastDragDelta = 0;
+  };
+
+  slider.addEventListener('pointerdown', startDrag);
+  slider.addEventListener('pointermove', handleDragMove);
+  slider.addEventListener('pointerup', (event) => finishDrag(event));
+  slider.addEventListener('pointercancel', (event) => finishDrag(event, true));
 
   slider.addEventListener('mouseenter', pauseAutoplay);
   slider.addEventListener('mouseleave', resumeAutoplayIfAllowed);
