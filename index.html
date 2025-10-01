@@ -69,34 +69,150 @@
             materializar tus objetivos sin distracciones innecesarias.
           </p>
         </div>
-        <div class="container features__grid">
-          <article class="feature-card">
-            <img
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
-              alt="Tablero con notas de proyectos"
-              loading="lazy"
-            />
-            <h3>Notas enlazadas a tu calendario</h3>
-            <p>Documenta tus ideas y vincúlalas con tareas y proyectos en segundos.</p>
-          </article>
-          <article class="feature-card">
-            <img
-              src="https://images.unsplash.com/photo-1659428167876-a5a52756f421?auto=format&fit=crop&w=800&q=80"
-              alt="Calendario digital"
-              loading="lazy"
-            />
-            <h3>Calendario contextual</h3>
-            <p>Visualiza tus compromisos con recomendaciones automáticas y recordatorios.</p>
-          </article>
-          <article class="feature-card">
-            <img
-              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
-              alt="Persona trabajando en laptop minimalista"
-              loading="lazy"
-            />
-            <h3>Automatizaciones</h3>
-            <p>Conecta tus aplicaciones favoritas para que el progreso fluya sin fricción.</p>
-          </article>
+        <div class="container">
+          <div
+            class="features-slider"
+            role="region"
+            aria-label="Funciones destacadas de Gingnor"
+            data-autoplay="6500"
+          >
+            <div class="features-slider__viewport" aria-live="polite">
+              <article
+                class="feature-slide is-active"
+                id="feature-slide-1"
+                role="tabpanel"
+                aria-labelledby="feature-tab-1"
+                style="--slide-accent: #5c6efc"
+              >
+                <div class="feature-slide__media" role="presentation">
+                  <img
+                    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
+                    alt="Tablero con notas de proyectos"
+                    loading="lazy"
+                  />
+                  <div class="feature-slide__overlay">
+                    <span>Recordatorios conectados</span>
+                    <strong>+37%</strong>
+                    <small>en tareas completadas</small>
+                  </div>
+                </div>
+                <div class="feature-slide__content">
+                  <span class="feature-slide__tag">Ideas con contexto</span>
+                  <h3>Notas enlazadas a tu calendario</h3>
+                  <p>
+                    Documenta tus ideas y vincúlalas con tareas y proyectos en segundos
+                    para que nada se pierda entre reuniones y deadlines.
+                  </p>
+                  <ul class="feature-slide__points">
+                    <li>Sincroniza notas con eventos y obtén resúmenes automáticos.</li>
+                    <li>Guarda plantillas inteligentes para reuniones recurrentes.</li>
+                  </ul>
+                </div>
+              </article>
+              <article
+                class="feature-slide"
+                id="feature-slide-2"
+                role="tabpanel"
+                aria-labelledby="feature-tab-2"
+                style="--slide-accent: #ff7a59"
+              >
+                <div class="feature-slide__media" role="presentation">
+                  <img
+                    src="https://images.unsplash.com/photo-1659428167876-a5a52756f421?auto=format&fit=crop&w=800&q=80"
+                    alt="Calendario digital"
+                    loading="lazy"
+                  />
+                  <div class="feature-slide__overlay">
+                    <span>Tu semana ideal</span>
+                    <strong>9 bloques</strong>
+                    <small>sugeridos según tu energía</small>
+                  </div>
+                </div>
+                <div class="feature-slide__content">
+                  <span class="feature-slide__tag">Agenda inteligente</span>
+                  <h3>Calendario contextual</h3>
+                  <p>
+                    Visualiza tus compromisos con recomendaciones automáticas, recordatorios
+                    que se adaptan a tu ritmo y foco en lo realmente importante.
+                  </p>
+                  <ul class="feature-slide__points">
+                    <li>Recibe horarios sugeridos basados en tus picos de energía.</li>
+                    <li>Detecta conflictos y obtén alternativas en un solo clic.</li>
+                  </ul>
+                </div>
+              </article>
+              <article
+                class="feature-slide"
+                id="feature-slide-3"
+                role="tabpanel"
+                aria-labelledby="feature-tab-3"
+                style="--slide-accent: #11b5a4"
+              >
+                <div class="feature-slide__media" role="presentation">
+                  <img
+                    src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
+                    alt="Persona trabajando en laptop minimalista"
+                    loading="lazy"
+                  />
+                  <div class="feature-slide__overlay">
+                    <span>Flujos sin fricción</span>
+                    <strong>24 apps</strong>
+                    <small>listas para conectarse</small>
+                  </div>
+                </div>
+                <div class="feature-slide__content">
+                  <span class="feature-slide__tag">Trabajo automatizado</span>
+                  <h3>Automatizaciones</h3>
+                  <p>
+                    Conecta tus aplicaciones favoritas para que el progreso fluya sin
+                    fricción y dedica tu energía a crear, no a actualizar tableros.
+                  </p>
+                  <ul class="feature-slide__points">
+                    <li>Dispara tareas, notas o mensajes según el avance de tus proyectos.</li>
+                    <li>Recibe resúmenes automáticos al final del día en tu bandeja.</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+            <div class="features-slider__controls" role="tablist" aria-label="Cambiar función destacada">
+              <button
+                type="button"
+                class="features-slider__control is-active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="feature-slide-1"
+                data-target="0"
+                id="feature-tab-1"
+                style="--control-accent: #5c6efc"
+              >
+                <span class="features-slider__control-label">Notas conectadas</span>
+              </button>
+              <button
+                type="button"
+                class="features-slider__control"
+                role="tab"
+                aria-selected="false"
+                aria-controls="feature-slide-2"
+                data-target="1"
+                id="feature-tab-2"
+                style="--control-accent: #ff7a59"
+              >
+                <span class="features-slider__control-label">Calendario</span>
+              </button>
+              <button
+                type="button"
+                class="features-slider__control"
+                role="tab"
+                aria-selected="false"
+                aria-controls="feature-slide-3"
+                data-target="2"
+                id="feature-tab-3"
+                style="--control-accent: #11b5a4"
+              >
+                <span class="features-slider__control-label">Automatizaciones</span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
