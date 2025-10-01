@@ -251,7 +251,7 @@ main section {
   position: relative;
   background: linear-gradient(135deg, rgba(77, 111, 255, 0.06), rgba(17, 181, 164, 0.08));
   padding: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 6vw, 3.75rem);
-  box-shadow: var(--shadow-soft);
+  /**box-shadow: var(--shadow-soft);**/
   overflow: hidden;
   --drag-offset: 0px;
 }
