@@ -1,6 +1,6 @@
-const RESEND_API_KEY = 'TU_API_KEY_DE_RESEND';
+const RESEND_API_KEY = 're_ZEe3Xmxg_DLajFDgx3jGqQHSLruCAbhxk';
 const RESEND_FROM_EMAIL = 'lanzamiento@gingnor.com';
-const RESEND_TARGET_EMAIL = 'hola@gingnor.com';
+const RESEND_TARGET_EMAIL = 'daironquebrada@gmail.com';
 const RESEND_SUBJECT = 'Nuevo registro en la lista prioritaria de Gingnor';
 
 const header = document.querySelector('.site-header');
