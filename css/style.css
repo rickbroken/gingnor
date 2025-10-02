@@ -175,16 +175,72 @@ main section {
   bottom: -1.5rem;
   right: 1.5rem;
   background: var(--color-surface);
-  padding: 1rem 1.5rem;
-  border-radius: 16px;
+  padding: 1.25rem 1.75rem;
+  border-radius: 18px;
   box-shadow: var(--shadow-soft);
-  display: grid;
-  gap: 0.25rem;
-  text-align: right;
+  text-align: center;
+  width: min(100%, 320px);
 }
 
-.hero__badge strong {
-  font-size: 1rem;
+.countdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.countdown__label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-accent);
+}
+
+.countdown__display {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.45rem;
+  background: radial-gradient(circle at top, #fde3ee, rgba(253, 227, 238, 0.65));
+  padding: 0.9rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(244, 143, 177, 0.25);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.countdown__segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.65rem 0.5rem;
+  border-radius: 12px;
+  box-shadow: inset 0 -6px 12px rgba(244, 143, 177, 0.18);
+}
+
+.countdown__value {
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Poppins', 'SFMono-Regular', 'Roboto Mono', monospace;
+  color: var(--color-text);
+}
+
+.countdown__unit {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-muted);
+}
+
+.countdown__separator {
+  align-self: center;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: rgba(244, 143, 177, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button {

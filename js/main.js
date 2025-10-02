@@ -32,6 +32,97 @@ if (toggle && menu) {
   });
 }
 
+const countdownElement = document.querySelector('.countdown');
+
+if (countdownElement) {
+  const targetDateValue = countdownElement.getAttribute('data-countdown-target');
+  const targetDate = targetDateValue ? new Date(targetDateValue) : null;
+  const valueElements = {
+    months: countdownElement.querySelector('[data-countdown-unit="months"]'),
+    days: countdownElement.querySelector('[data-countdown-unit="days"]'),
+    hours: countdownElement.querySelector('[data-countdown-unit="hours"]'),
+    seconds: countdownElement.querySelector('[data-countdown-unit="seconds"]'),
+  };
+  const labelElement = countdownElement.querySelector('.countdown__label');
+
+  const updateCountdown = () => {
+    if (!targetDate || Number.isNaN(targetDate.getTime())) {
+      Object.values(valueElements).forEach((element) => {
+        if (element) {
+          element.textContent = '00';
+        }
+      });
+      return;
+    }
+
+    const now = new Date();
+    if (now >= targetDate) {
+      Object.values(valueElements).forEach((element) => {
+        if (element) {
+          element.textContent = '00';
+        }
+      });
+      if (labelElement) {
+        labelElement.textContent = '¡Lanzamiento en vivo!';
+      }
+      return;
+    }
+
+    const computeMonthsDifference = (startDate, endDate) => {
+      let months =
+        (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+        (endDate.getMonth() - startDate.getMonth());
+
+      const candidate = new Date(startDate);
+      candidate.setMonth(candidate.getMonth() + months);
+
+      if (candidate > endDate) {
+        months -= 1;
+      }
+
+      return Math.max(months, 0);
+    };
+
+    const months = computeMonthsDifference(now, targetDate);
+    const baseDate = new Date(now);
+    baseDate.setMonth(baseDate.getMonth() + months);
+
+    let remaining = Math.max(targetDate.getTime() - baseDate.getTime(), 0);
+
+    const dayMs = 24 * 60 * 60 * 1000;
+    const hourMs = 60 * 60 * 1000;
+    const minuteMs = 60 * 1000;
+
+    const days = Math.floor(remaining / dayMs);
+    remaining -= days * dayMs;
+
+    const hours = Math.floor(remaining / hourMs);
+    remaining -= hours * hourMs;
+
+    const minutes = Math.floor(remaining / minuteMs);
+    remaining -= minutes * minuteMs;
+
+    const seconds = Math.floor(remaining / 1000);
+
+    const formattedValues = {
+      months: String(months).padStart(2, '0'),
+      days: String(days).padStart(2, '0'),
+      hours: String(hours).padStart(2, '0'),
+      seconds: String(seconds).padStart(2, '0'),
+    };
+
+    (Object.keys(formattedValues)).forEach((unit) => {
+      const element = valueElements[unit];
+      if (element) {
+        element.textContent = formattedValues[unit];
+      }
+    });
+  };
+
+  updateCountdown();
+  window.setInterval(updateCountdown, 1000);
+}
+
 const form = document.querySelector('.cta__form');
 const formMessage = document.querySelector('.cta__form-message');
 
