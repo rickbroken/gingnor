@@ -52,9 +52,33 @@
               alt="Persona organizando notas en su computador"
               loading="lazy"
             />
-            <div class="hero__badge">
-              <strong>Beta privada</strong>
-              <span>Lanzamiento Q4 · Ene - 2026</span>
+            <div
+              class="hero__badge countdown"
+              data-countdown-target="2026-01-15T00:00:00-05:00"
+              aria-live="polite"
+            >
+              <span class="countdown__label">Cuenta regresiva</span>
+              <div class="countdown__display" role="group" aria-label="Tiempo restante">
+                <div class="countdown__segment">
+                  <span class="countdown__value" data-countdown-unit="months">00</span>
+                  <span class="countdown__unit">Meses</span>
+                </div>
+                <div class="countdown__separator" aria-hidden="true">:</div>
+                <div class="countdown__segment">
+                  <span class="countdown__value" data-countdown-unit="days">00</span>
+                  <span class="countdown__unit">Días</span>
+                </div>
+                <div class="countdown__separator" aria-hidden="true">:</div>
+                <div class="countdown__segment">
+                  <span class="countdown__value" data-countdown-unit="hours">00</span>
+                  <span class="countdown__unit">Horas</span>
+                </div>
+                <div class="countdown__separator" aria-hidden="true">:</div>
+                <div class="countdown__segment">
+                  <span class="countdown__value" data-countdown-unit="seconds">00</span>
+                  <span class="countdown__unit">Segundos</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
