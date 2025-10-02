@@ -679,17 +679,25 @@ main section {
 .cta__form {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   justify-items: center;
 }
 
 .cta__form input {
-  width: 100%;
+  width: min(100%, 360px);
   padding: 0.95rem 1.2rem;
   border-radius: 999px;
   border: 1px solid var(--color-border);
   font-size: 1rem;
   background: #fff7fb;
+}
+
+.cta__form button {
+  width: min(100%, 360px);
+  justify-self: center;
+}
+
+.cta__form .button {
+  margin-right: 0;
 }
 
 .cta__form input:focus-visible {
@@ -718,6 +726,73 @@ main section {
 .cta__disclaimer {
   font-size: 0.9rem;
   color: var(--color-muted);
+}
+
+.cta__illustration {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.cta__orb {
+  width: clamp(160px, 28vw, 220px);
+  height: clamp(160px, 28vw, 220px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(244, 143, 177, 0.4));
+  box-shadow: 0 25px 60px rgba(244, 143, 177, 0.35);
+  filter: saturate(115%);
+  animation: ctaOrbFloat 11s ease-in-out infinite;
+}
+
+.cta__orb--secondary {
+  width: clamp(120px, 20vw, 160px);
+  height: clamp(120px, 20vw, 160px);
+  background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.9), rgba(179, 229, 252, 0.45));
+  box-shadow: 0 20px 45px rgba(179, 229, 252, 0.3);
+  animation-delay: -4s;
+}
+
+.cta__spark {
+  width: clamp(180px, 32vw, 260px);
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(244, 143, 177, 0), rgba(244, 143, 177, 0.7), rgba(179, 229, 252, 0));
+  position: relative;
+  overflow: hidden;
+}
+
+.cta__spark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  animation: ctaSparkPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes ctaOrbFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.03);
+  }
+}
+
+@keyframes ctaSparkPulse {
+  0%,
+  100% {
+    transform: translateX(-60%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(60%);
+  }
 }
 
 .site-footer {
