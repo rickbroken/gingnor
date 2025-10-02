@@ -1,3 +1,8 @@
+const SMTP_SECURE_TOKEN = 'REEMPLAZA_CON_TU_SECURE_TOKEN_SMTPJS';
+const SMTP_TARGET_EMAIL = 'daironquebrada@gmail.com';
+const SMTP_FROM_EMAIL = 'lanzamientogingnor@gingnor.com';
+const SMTP_SUBJECT = 'Hola esta persona quiere unirse al lanzamiento';
+
 const header = document.querySelector('.site-header');
 const toggle = document.querySelector('.navigation__toggle');
 const menu = document.getElementById('primary-menu');
@@ -38,24 +43,26 @@ const setFormMessage = (message, type = 'success') => {
   formMessage.dataset.variant = type;
 };
 
-const sendResendEmail = async (email) => {
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer re_ZEe3Xmxg_DLajFDgx3jGqQHSLruCAbhxk",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      from: "lanzamientogingnor@gingnor.com",
-      to: ["daironquebrada@gmail.com"],
-      subject: "Hola esta persona quiere unirse al lanzamiento",
-      html: "<p>Correo enviado sin librerías extra</p>"
-    })
+const sendEmailWithSmtpJS = async (email) => {
+  if (!window.Email || typeof window.Email.send !== 'function') {
+    throw new Error('El servicio de correo no está disponible en este momento.');
+  }
+
+  const message = await window.Email.send({
+    SecureToken: SMTP_SECURE_TOKEN,
+    To: SMTP_TARGET_EMAIL,
+    From: SMTP_FROM_EMAIL,
+    Subject: SMTP_SUBJECT,
+    Body: `
+      <h1>Nuevo registro</h1>
+      <p>Se ha registrado un nuevo correo para la beta privada de Gingnor.</p>
+      <p><strong>Correo:</strong> ${email}</p>
+      <p>Recuerda dar seguimiento para continuar con el proceso de bienvenida.</p>
+    `,
   });
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || 'No fue posible enviar el correo.');
+  if (String(message).toLowerCase() !== 'ok') {
+    throw new Error('No fue posible enviar el correo.');
   }
 };
 
@@ -76,7 +83,7 @@ if (form) {
     setFormMessage('Enviando tu registro...', 'info');
 
     try {
-      await sendResendEmail(email);
+      await sendEmailWithSmtpJS(email);
       form.reset();
       setFormMessage(
         '¡Listo! Revisa tu bandeja de entrada, pronto recibirás noticias y recursos exclusivos.',

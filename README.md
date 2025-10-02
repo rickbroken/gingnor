@@ -2,11 +2,13 @@
 
 ## Configuración del formulario de registro
 
-El formulario de registro utiliza una función serverless de Netlify para enviar las notificaciones por correo a través de [Resend](https://resend.com/). Para que el envío funcione correctamente debes definir las siguientes variables de entorno en tu proyecto (por ejemplo en Netlify):
+El formulario de registro utiliza [SMTPJS](https://smtpjs.com/) para enviar notificaciones por correo directamente desde el navegador. Debes generar un `SecureToken` en SMTPJS y reemplazar los valores de las constantes declaradas al inicio de `js/main.js`.
 
-- `RESEND_API_KEY`
-- `RESEND_FROM_EMAIL`
-- `RESEND_TARGET_EMAIL`
-- `RESEND_SUBJECT` (opcional, cuenta con un valor por defecto)
+Variables a configurar:
 
-La función se encuentra en `netlify/functions/send-email.js`. Si ejecutas el proyecto de forma local con `netlify dev`, las variables de entorno pueden declararse en un archivo `.env` en la raíz del proyecto.
+- `SMTP_SECURE_TOKEN`
+- `SMTP_FROM_EMAIL`
+- `SMTP_TARGET_EMAIL`
+- `SMTP_SUBJECT` (opcional, puedes ajustar el valor por defecto)
+
+Recuerda que los valores sensibles no deben compartirse públicamente. Si prefieres gestionar el envío desde un entorno controlado, puedes integrar los datos con tu propio backend o función serverless asegurando estas credenciales.
