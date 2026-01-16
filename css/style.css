@@ -32,6 +32,7 @@ main {
   display: flex;
   align-items: center;
   padding: clamp(3rem, 8vw, 6rem) 0;
+  height:100vh;
   background:
     radial-gradient(circle at 12% 18%, rgba(244, 143, 177, 0.25), transparent 58%),
     radial-gradient(circle at 85% 10%, rgba(253, 227, 238, 0.8), transparent 55%),
