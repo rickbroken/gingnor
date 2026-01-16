@@ -45,7 +45,6 @@ main {
 }
 
 .hero__quote {
-  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
   color: var(--color-muted);
   font-weight: 400;
   max-width: 720px;
