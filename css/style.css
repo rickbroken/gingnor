@@ -66,7 +66,7 @@ main {
 
 .hero__quote h1 {
   margin: 0 0 0.75rem;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: clamp(1rem, 2vw, 1.4rem);
   color: var(--color-text);
 }
 
