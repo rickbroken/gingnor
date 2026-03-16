@@ -3,6 +3,17 @@ const SMTP_TARGET_EMAIL = 'daironquebrada@gmail.com';
 const SMTP_FROM_EMAIL = 'lanzamientogingnor@gingnor.com';
 const SMTP_SUBJECT = 'Hola esta persona quiere unirse al lanzamiento';
 
+const initializeVercelAnalytics = async () => {
+  try {
+    const { inject } = await import('@vercel/analytics');
+    inject();
+  } catch (error) {
+    console.warn('No fue posible inicializar Vercel Analytics.', error);
+  }
+};
+
+initializeVercelAnalytics();
+
 const header = document.querySelector('.site-header');
 const toggle = document.querySelector('.navigation__toggle');
 const menu = document.getElementById('primary-menu');

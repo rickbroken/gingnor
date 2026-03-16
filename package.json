@@ -1,0 +1,15 @@
+{
+  "name": "gingnor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "> Una estación minimalista para planificar tu día con intención, claridad y un toque de automatización inteligente. 🌱",
+  "scripts": {
+    "test": "echo \"No hay pruebas automatizadas configuradas\""
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.5.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
